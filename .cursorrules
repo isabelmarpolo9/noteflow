@@ -1,0 +1,35 @@
+# NoteFlow - Cursor Rules
+
+## Contexto del proyecto
+App de productividad móvil construida con React Native y Expo.
+Gestiona tres tipos de contenido: notas, tareas e ideas.
+
+## Stack tecnológico
+- React Native + Expo SDK
+- TypeScript (estricto, sin any)
+- Expo Router (navegación por sistema de archivos)
+- Gluestack UI (componentes visuales)
+- Zustand (estado global)
+- AsyncStorage (persistencia local)
+- FlashList (listas de alto rendimiento)
+- Zod (validación de formularios)
+
+## Estructura de carpetas
+- app/ → rutas y pantallas (Expo Router)
+- components/ → componentes reutilizables
+- store/ → stores de Zustand
+- types/ → interfaces y tipos TypeScript
+- constants/ → tema visual y constantes
+- docs/ → documentación del proyecto
+
+## Convenciones de código
+- Componentes en PascalCase (NoteCard.tsx)
+- Archivos de store en camelCase (notesStore.ts)
+- Interfaces con prefijo I no, sin prefijo (Note, no INote)
+- Siempre tipar explícitamente, nunca usar any
+
+## Restricciones importantes
+- No usar StyleSheet.create, usar Gluestack UI
+- No usar FlatList, usar FlashList
+- No usar Context API, usar Zustand
+- No usar React Navigation, usar Expo Router
