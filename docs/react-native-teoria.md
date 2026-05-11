@@ -45,3 +45,23 @@ siguientes razones:
   un aspecto muy genérico de app Android
 - Gluestack UI está optimizado para Expo y TypeScript, el stack
   que usamos en este proyecto
+
+  ## Sistemas de diseño
+
+Se compararon las dos librerías UI principales para Expo:
+
+**Gluestack UI**
+- Filosofía similar a Tailwind CSS
+- Muy personalizable
+- Tuvo problemas de compatibilidad con Expo SDK 54 y React 19
+- Requiere muchas dependencias nativas adicionales
+
+**React Native Paper**
+- Implementación de Material Design
+- Muy estable y bien mantenida
+- Integración sencilla con Expo
+- Componentes listos para usar sin configuración compleja
+
+Se eligió **React Native Paper** por su estabilidad y compatibilidad
+con la versión actual de Expo, ya que Gluestack UI presentó conflictos
+de dependencias que impedían arrancar la app correctamente.
