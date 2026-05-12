@@ -18,6 +18,7 @@
     "@react-native-aria/radio": "^0.2.13",
     "@react-native-aria/slider": "^0.2.12",
     "@react-native-aria/toggle": "^0.2.11",
+    "@shopify/flash-list": "2.0.2",
     "expo": "~54.0.34",
     "expo-constants": "~18.0.13",
     "expo-linking": "~8.0.12",
