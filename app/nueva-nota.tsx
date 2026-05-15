@@ -31,14 +31,14 @@ export default function NuevaNotaScreen() {
     const result = noteSchema.safeParse({ title, content });
 
     if (!result.success) {
-      const fieldErrors: { title?: string; content?: string } = {};
-      result.error.errors.forEach((err) => {
-        if (err.path[0] === 'title') fieldErrors.title = err.message;
-        if (err.path[0] === 'content') fieldErrors.content = err.message;
-      });
-      setErrors(fieldErrors);
-      return;
-    }
+  const fieldErrors: { title?: string; content?: string } = {};
+  result.error?.errors?.forEach((err) => {
+    if (err.path[0] === 'title') fieldErrors.title = err.message;
+    if (err.path[0] === 'content') fieldErrors.content = err.message;
+  });
+  setErrors(fieldErrors);
+  return;
+}
 
     setErrors({});
     addNote({
