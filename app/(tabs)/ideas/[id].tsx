@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useNotesStore } from '../../../store/notesStore';
 import { spacing, typography } from '../../../constants/theme';
+import * as Haptics from 'expo-haptics';
+
 
 export default function IdeaDetalleScreen() {
   const { id } = useLocalSearchParams();
@@ -28,6 +30,7 @@ export default function IdeaDetalleScreen() {
           text: 'Eliminar',
           style: 'destructive',
           onPress: () => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             deleteIdea(idea.id);
             router.back();
           },

@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useNotesStore } from '../../../store/notesStore';
 import { spacing, typography } from '../../../constants/theme';
+import * as Haptics from 'expo-haptics';
 
 export default function ChecklistDetalleScreen() {
   const { id } = useLocalSearchParams();
@@ -28,6 +29,7 @@ export default function ChecklistDetalleScreen() {
           text: 'Eliminar',
           style: 'destructive',
           onPress: () => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             deleteChecklist(checklist.id);
             router.back();
           },
@@ -46,7 +48,16 @@ export default function ChecklistDetalleScreen() {
         <TouchableOpacity
           key={item.id}
           style={styles.item}
-          onPress={() => toggleChecklistItem(checklist.id, item.id)}
+          onPress={() => {
+            toggleChecklistItem(checklist.id, item.id);
+            const updatedItems = checklist.items.map(i =>
+              i.id === item.id ? { ...i, isCompleted: !i.isCompleted } : i
+            );
+            const allCompleted = updatedItems.every(i => i.isCompleted);
+            if (allCompleted) {
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            }
+          }}
         >
           <View style={[styles.checkbox, item.isCompleted && styles.checkboxCompleted]} />
           <Text style={[styles.itemText, item.isCompleted && styles.itemTextCompleted]}>
