@@ -1,21 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useNotesStore } from '../../../store/notesStore';
-import { spacing, typography } from '../../../constants/theme';
+import { useTheme } from '../../../constants/theme';
 import * as Haptics from 'expo-haptics';
-
 
 export default function IdeaDetalleScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { ideas, deleteIdea } = useNotesStore();
+  const { colors } = useTheme();
 
   const idea = ideas.find(i => i.id === id);
 
   if (!idea) {
     return (
-      <View style={styles.container}>
-        <Text>Idea no encontrada</Text>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <Text style={{ color: colors.text }}>Idea no encontrada</Text>
       </View>
     );
   }
@@ -60,12 +60,12 @@ export default function IdeaDetalleScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: spacing.md },
-  title: { fontSize: typography.xxl, fontWeight: 'bold', color: '#ffffff', marginBottom: spacing.xs },
-  date: { fontSize: typography.sm, color: 'rgba(255,255,255,0.8)', marginBottom: spacing.md },
-  tagsContainer: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: spacing.md },
-  tag: { backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 12, paddingHorizontal: spacing.sm, paddingVertical: 4, marginRight: spacing.xs, marginBottom: spacing.xs },
-  tagText: { fontSize: typography.sm, color: '#ffffff' },
-  deleteButton: { backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: spacing.md, alignItems: 'center', marginTop: spacing.xl },
-  deleteButtonText: { color: '#ffffff', fontSize: typography.md, fontWeight: 'bold' },
+  container: { flex: 1, padding: 16 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#ffffff', marginBottom: 4 },
+  date: { fontSize: 14, color: 'rgba(255,255,255,0.8)', marginBottom: 16 },
+  tagsContainer: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 },
+  tag: { backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 12, paddingHorizontal: 8, paddingVertical: 4, marginRight: 4, marginBottom: 4 },
+  tagText: { fontSize: 14, color: '#ffffff' },
+  deleteButton: { backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: 16, alignItems: 'center', marginTop: 32 },
+  deleteButtonText: { color: '#ffffff', fontSize: 16, fontWeight: 'bold' },
 });

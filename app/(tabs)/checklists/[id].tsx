@@ -1,20 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useNotesStore } from '../../../store/notesStore';
-import { spacing, typography } from '../../../constants/theme';
+import { useTheme } from '../../../constants/theme';
 import * as Haptics from 'expo-haptics';
 
 export default function ChecklistDetalleScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { checklists, deleteChecklist, toggleChecklistItem } = useNotesStore();
+  const { colors } = useTheme();
 
   const checklist = checklists.find(c => c.id === id);
 
   if (!checklist) {
     return (
-      <View style={styles.container}>
-        <Text>Tarea no encontrada</Text>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <Text style={{ color: colors.text }}>Tarea no encontrada</Text>
       </View>
     );
   }
@@ -39,15 +40,15 @@ export default function ChecklistDetalleScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{checklist.title}</Text>
-      <Text style={styles.date}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>{checklist.title}</Text>
+      <Text style={[styles.date, { color: colors.textSecondary }]}>
         {new Date(checklist.createdAt).toLocaleDateString('es-ES')}
       </Text>
       {checklist.items.map((item) => (
         <TouchableOpacity
           key={item.id}
-          style={styles.item}
+          style={[styles.item, { borderBottomColor: colors.border }]}
           onPress={() => {
             toggleChecklistItem(checklist.id, item.id);
             const updatedItems = checklist.items.map(i =>
@@ -60,7 +61,7 @@ export default function ChecklistDetalleScreen() {
           }}
         >
           <View style={[styles.checkbox, item.isCompleted && styles.checkboxCompleted]} />
-          <Text style={[styles.itemText, item.isCompleted && styles.itemTextCompleted]}>
+          <Text style={[styles.itemText, { color: colors.text }, item.isCompleted && styles.itemTextCompleted]}>
             {item.text}
           </Text>
         </TouchableOpacity>
@@ -73,14 +74,14 @@ export default function ChecklistDetalleScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: spacing.md, backgroundColor: '#f8fafc' },
-  title: { fontSize: typography.xxl, fontWeight: 'bold', color: '#0f172a', marginBottom: spacing.xs },
-  date: { fontSize: typography.sm, color: '#64748b', marginBottom: spacing.md },
-  item: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: '#e2e8f0' },
-  checkbox: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: '#10b981', marginRight: spacing.sm },
+  container: { flex: 1, padding: 16 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 4 },
+  date: { fontSize: 14, marginBottom: 16 },
+  item: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1 },
+  checkbox: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: '#10b981', marginRight: 12 },
   checkboxCompleted: { backgroundColor: '#10b981' },
-  itemText: { fontSize: typography.md, color: '#0f172a' },
+  itemText: { fontSize: 16 },
   itemTextCompleted: { textDecorationLine: 'line-through', color: '#94a3b8' },
-  deleteButton: { backgroundColor: '#ef4444', borderRadius: 8, padding: spacing.md, alignItems: 'center', marginTop: spacing.xl },
-  deleteButtonText: { color: '#ffffff', fontSize: typography.md, fontWeight: 'bold' },
+  deleteButton: { backgroundColor: '#ef4444', borderRadius: 8, padding: 16, alignItems: 'center', marginTop: 32 },
+  deleteButtonText: { color: '#ffffff', fontSize: 16, fontWeight: 'bold' },
 });

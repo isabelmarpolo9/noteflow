@@ -1,19 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useNotesStore } from '../../../store/notesStore';
-import { spacing, typography } from '../../../constants/theme';
+import { useTheme } from '../../../constants/theme';
+import * as Haptics from 'expo-haptics';
 
 export default function NotaDetalleScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { notes, deleteNote } = useNotesStore();
+  const { colors, spacing, typography } = useTheme();
 
   const note = notes.find(n => n.id === id);
 
   if (!note) {
     return (
-      <View style={styles.container}>
-        <Text>Nota no encontrada</Text>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <Text style={{ color: colors.text }}>Nota no encontrada</Text>
       </View>
     );
   }
@@ -28,6 +30,7 @@ export default function NotaDetalleScreen() {
           text: 'Eliminar',
           style: 'destructive',
           onPress: () => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             deleteNote(note.id);
             router.back();
           },
@@ -37,12 +40,12 @@ export default function NotaDetalleScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{note.title}</Text>
-      <Text style={styles.date}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>{note.title}</Text>
+      <Text style={[styles.date, { color: colors.textSecondary }]}>
         {new Date(note.createdAt).toLocaleDateString('es-ES')}
       </Text>
-      <Text style={styles.content}>{note.content}</Text>
+      <Text style={[styles.content, { color: colors.text }]}>{note.content}</Text>
       <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
         <Text style={styles.deleteButtonText}>Eliminar nota</Text>
       </TouchableOpacity>
@@ -51,10 +54,10 @@ export default function NotaDetalleScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: spacing.md, backgroundColor: '#f8fafc' },
-  title: { fontSize: typography.xxl, fontWeight: 'bold', color: '#0f172a', marginBottom: spacing.xs },
-  date: { fontSize: typography.sm, color: '#64748b', marginBottom: spacing.md },
-  content: { fontSize: typography.md, color: '#0f172a', lineHeight: 24 },
-  deleteButton: { backgroundColor: '#ef4444', borderRadius: 8, padding: spacing.md, alignItems: 'center', marginTop: spacing.xl },
-  deleteButtonText: { color: '#ffffff', fontSize: typography.md, fontWeight: 'bold' },
+  container: { flex: 1, padding: 16 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 4 },
+  date: { fontSize: 14, marginBottom: 16 },
+  content: { fontSize: 16, lineHeight: 24 },
+  deleteButton: { backgroundColor: '#ef4444', borderRadius: 8, padding: 16, alignItems: 'center', marginTop: 32 },
+  deleteButtonText: { color: '#ffffff', fontSize: 16, fontWeight: 'bold' },
 });

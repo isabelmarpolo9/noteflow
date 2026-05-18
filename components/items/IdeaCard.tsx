@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { IdeaNote } from '../../types';
-import { colors, typography, spacing } from '../../constants/theme';
+import { useTheme } from '../../constants/theme';
 
 interface IdeaCardProps {
   idea: IdeaNote;
@@ -8,6 +8,7 @@ interface IdeaCardProps {
 }
 
 export default function IdeaCard({ idea, onPress }: IdeaCardProps) {
+  const { colors } = useTheme();
   const date = new Date(idea.createdAt).toLocaleDateString('es-ES');
 
   return (
@@ -31,40 +32,18 @@ export default function IdeaCard({ idea, onPress }: IdeaCardProps) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 12,
-    padding: spacing.md,
-    marginHorizontal: spacing.md,
-    marginVertical: spacing.sm,
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  title: {
-    fontSize: typography.lg,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: spacing.xs,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: spacing.xs,
-  },
-  tag: {
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    borderRadius: 12,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
-    marginRight: spacing.xs,
-    marginBottom: spacing.xs,
-  },
-  tagText: {
-    fontSize: typography.xs,
-    color: '#ffffff',
-  },
-  date: {
-    fontSize: typography.xs,
-    color: 'rgba(255,255,255,0.8)',
-  },
+  title: { fontSize: 18, fontWeight: 'bold', color: '#ffffff', marginBottom: 4 },
+  tagsContainer: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4 },
+  tag: { backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 12, paddingHorizontal: 8, paddingVertical: 2, marginRight: 4, marginBottom: 4 },
+  tagText: { fontSize: 12, color: '#ffffff' },
+  date: { fontSize: 12, color: 'rgba(255,255,255,0.8)' },
 });
